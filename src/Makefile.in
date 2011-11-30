@@ -1,0 +1,35 @@
+# Compilers
+NVCC := @NVCC@
+
+# Program-specifics
+OBJS := combo1colForR3Q_d.o combo1colForR1Q_d.o combo1colForR_d.o  kronVectMult1colForR3Q_d.o kronVectMult1colForR_d.o sampling_d.o mstnrUtils.o
+TARGET := CARramps.so
+
+# Compiler options
+FLAGS := @NCFLAGS@
+
+# linker options
+LDFLAGS := @LDFLAGS@
+LIBS := @LIBS@
+
+# Build rules
+#.SUFFIXES: .c .cpp .o
+.SUFFIXES: .cu .c .cpp .o
+
+all: $(TARGET) 
+
+$(TARGET): $(OBJS)
+	$(NVCC) -shared $(LDFLAGS) $(LIBS) $(OBJS) -o $@
+
+# new line to handle .cu files
+%.o: %.cu
+	$(NVCC) -c $(FLAGS) $< -o $@
+
+%.o: %.c
+	$(NVCC) -c $(FLAGS) $< -o $@
+
+%.o: %.cpp
+	$(NVCC) -c $(FLAGS) $< -o $@
+
+clean:
+	rm -rf $(OBJS) $(TARGET)

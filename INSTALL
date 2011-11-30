@@ -1,0 +1,214 @@
+--------------------------------------------------------------------------------
+CARramps R Package Version 0.1.2
+Installation Notes (11/04/2011)
+Package Maintainer: Kate Cowles <kate-cowles@uiowa.edu>
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+I.   Overview
+     (a) Introduction
+     (b) Hardware requirements
+     (c) Supported operating systems
+II.  Installation Instructions
+     (a) NVIDIA developer driver 
+     (a) NVIDIA CUDA Toolkit
+     (b) CARramps R package
+III.  Troubleshooting
+
+Appendices
+A. Compatible Graphics Cards
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+I. (a) Introduction
+--------------------------------------------------------------------------------
+
+The R package 'CARramps' enables fitting of a class of Bayesian conditional
+autoregressive models to spatial and spatiotemporal data.  Fast independent
+sampling from the joint posterior density is made possible using the massive
+parallelization enabled by CUDA graphics cards.
+
+
+--------------------------------------------------------------------------------
+I. (b) Hardware requirements
+--------------------------------------------------------------------------------
+
+* A 64-bit Intel-compatible CPU is required.
+
+* An NVIDIA graphics card with a compute capability designation of 1.3 or
+  greater is required.  See Appendix A of this guide for a list of compatible
+  cards.
+
+
+--------------------------------------------------------------------------------
+I. (c) Supported operating systems
+--------------------------------------------------------------------------------
+
+* Development and testing of the package were performed on 64-bit Fedora 14
+  and Ubuntu 10.04 Linux.
+
+* At this time, the package has not been tried on OS X or Windows.
+
+
+--------------------------------------------------------------------------------
+II. (a) Installation of NVIDIA developer driver
+--------------------------------------------------------------------------------
+
+An NVIDIA proprietary driver compatible with the NVIDIA CUDA Toolkit must
+be installed prior to the installation of the CUDA Toolkit and the CARramps
+R package.  Under Ubuntu, this typically can be done through the
+"Additional drivers" feature or the Synaptic package manager.  Alternatively,
+the drivers may be downloaded from the Nvidia site as described in the
+next section.
+
+--------------------------------------------------------------------------------
+II. (b) Installation of NVIDIA CUDA Toolkit
+--------------------------------------------------------------------------------
+
+CUDA is a general purpose parallel computing architecture that leverages the
+parallel processors in NVIDIA graphics cards to solve complex computational
+problems.  The CUDA Toolkit is a collection of libraries and callable routines
+that provide a programming interface to NVIDIA graphics cards.
+
+Perform the following steps to install the CUDA Toolkit version 4.0 or greater:
+
+(i)  Go to http://developer.nvidia.com/cuda-downloads
+
+(ii) Click the "documentation" link for Linux to find the Getting Started 
+     Guide Linux.  Follow the instructions in the Guide to install the 
+     developer driver (if you haven't already installed it by other
+     means) and the CUDA Toolkit.  
+
+(iii) Check that the Toolkit is installed correctly by trying one or more 
+      of the example programs.
+
+--------------------------------------------------------------------------------
+II. (c) Installation of the CARramps R package
+--------------------------------------------------------------------------------
+
+The CARramps R package may be installed either from a terminal command 
+prompt or from within R itself with one of the following commands:
+
+  Terminal command prompt
+  -----------------------
+  R CMD INSTALL --configure-args="<options>" CARramps_<version>.tar.gz
+
+  R command prompt
+  ----------------
+  install.packages("CARramps", configure.args = "<options>")
+
+where <options> are optional configuration argumen/ts that can be supplied to
+change default files and locations, and include
+
+  --with-r-home=DIR         full path to R installation []
+  --with-cuda-home=DIR      full path to CUDA installation [/usr/local/cuda]
+  --with-cuda-lib-home=DIR  full path to libcuda.so, installed by the
+                               Nvidia driver [/usr/lib64/nvidia-current]
+Example:
+
+The following illustrate installation of CARramps package release 0.1.2 on a
+system in which CUDA is installed in '/opt/cuda/cuda' and the 'libcuda.so'
+shared library is in '/usr/lib64/nvidia-current':
+
+  Terminal command prompt
+  -----------------------
+  R CMD INSTALL \
+    --configure-args="
+       --with-cuda-home=/opt/cuda/cuda \
+       --with-cuda-lib-home=/usr/lib64/nvidia-current" \
+    CARramps-0.1.1.tar.gz
+
+  R command prompt
+  ----------------
+  install.packages("CARramps",
+    configure.args = "--with-cuda-home=/opt/cuda/cuda
+      --with-cuda-lib-home=/usr/lib64/nvidia-current"
+  )
+
+--------------------------------------------------------------------------------
+IV. Troubleshooting
+--------------------------------------------------------------------------------
+
+Configuration Errors
+--------------------
+
+nvcc or CUDA headers not found!
+- Verify that a working installation of the CUDA Toolkit exists on your system.
+  See Section II(a).
+- Check that the '--with-cuda-home' configuration option is being set equal to 
+  the full and correct installation directory for the CUDA Toolkit.  See Section
+  II(d).
+
+R not found!
+- Verify that a working installation of R exists on your system by starting R
+  manually.
+- If the '--with-r-home' configuration option is being used, check that it is
+  set equal to the full and correct installation directory for R.  See Section
+  II(d).
+
+
+--------------------------------------------------------------------------------
+Appendix A. Compatible Graphics Cards
+--------------------------------------------------------------------------------
+
+The CARramps R package is compatible with CUDA-capable Nvidia graphics
+cards with compute capability 1.3 or greater.  As of this writing, these 
+cards are:
+
+NVIDIA
+------
+Geforce (number following each model name is compute capability): 
+ Desktop:
+ GTX 560 Ti  2.1
+ GTX 550 Ti  2.1
+ GTX 460  2.1
+ GTS 450  2.1
+ GTX 590  2.0
+ GTX 580  2.0
+ GTX 570  2.0
+ GTX 480  2.0
+ GTX 470  2.0
+ GTX 465  2.0
+ GTX 295  1.3
+ GTX 285  1.3
+ GTX 280  1.3
+ GTX 275  1.3
+ GTX 260  1.3
+ GT 520   2.1
+ GT 440   2.1
+ GT 430   2.1
+
+ Mobile:  
+ GT 580M  2.1
+ GT 570M  2.1
+ GT 560M  2.1
+ GT 555M  2.1
+ GT 550M  2.1
+ GT 540M  2.1
+ GT 525M  2.1
+ GT 520MX 2.1
+ GT 520M  2.1
+ GTX 485M 2.1
+ GTX 470M 2.1
+ GTX 460M 2.1
+ GT 445M  2.1
+ GT 435M  2.1
+ GT 420M  2.1
+ GT 415M  2.1
+ GTX 480M 2.0 
+
+Tesla: C1060, C2050, C2070, M1060, M2050, M2070, M2075, M2090, 
+       S1070, S2050
+Quadro: CX, FX 3800, FX 4800, FX 5800, Plex 2200 D2, Plex 7000
+        600, 2000, 4000, 5000, 6000,
+        1000M, 2000M, 3000M, 4000M, 5010M
+NVS: 4200M
+
+AMD/ATI
+---
+None
+
